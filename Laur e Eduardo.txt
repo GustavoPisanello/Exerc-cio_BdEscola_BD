@@ -1,0 +1,64 @@
+-- Eduardo e Gustavo Laur MB's
+
+create database dbescola;
+ use dbescola;
+ 
+ create table tbCliente(
+ idCli int primary key,
+ nomeCli varchar(50) not null,
+ numEnd smallint,
+ datacadastro datetime default current_timestamp
+ );
+ 
+ alter table tbCliente add column cpf bigint not null unique;
+ 
+ alter table tbCliente add column cep char(5);
+ 
+ create database dbempresa;
+ use dbempresa;
+ 
+ create table tbEndereco(
+ cep char(5) primary key,
+ logradouro varchar(250) not null,
+ idUf tinyint
+ );
+ 
+ alter table tbCliente add constraint Fk_Cep_TbCliente foreign key (cep) references tbendereco(cep);
+ 
+ describe tbCliente;
+ 
+ /*
+ - Criar uma foreign key
+ - Entender como as tabelas se relacionam
+ - As normalizações
+ */
+ 
+ show databases;
+ drop database dbempresa;
+ 
+ create table tbEst (
+  idUf tinyint primary key,
+  nomeUfs char(2) not null,
+  nomeEstado varchar(40) not null
+ );
+ 
+ alter table tbEndereco add constraint Fk_UF_tbEndereco foreign key (idUf) references tbEst (idUf); 
+ 
+ describe tbEnderecotbcliente;
+ 
+ alter table tbEst drop column nomeEstado; 
+ 
+ rename table tbEst to tbEstado;
+ 
+ alter table tbEstado rename column nomeUfs to nomeUf;  
+ 
+ alter table tbEndereco ADD column idCid int; 
+ 
+ create table tbCidade(
+	idCid int primary key,
+    nomeCidade varchar(50) not null
+ );
+ 
+ alter table tbCidade modify nomeCidade varchar(250) not null;
+ 
+ alter table tbEndereco add constraint fk_cid_tbEndereco foreign key (idCid) references tbCidade(idCid);
